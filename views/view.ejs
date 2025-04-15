@@ -1,0 +1,101 @@
+<%- include("./partials/header.ejs") %>
+
+<style>
+  .blog-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .blog-header {
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+  }
+  .blog-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .blog-meta {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+  .blog-content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+  }
+  .blog-actions {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .btn-back {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+  }
+  .btn-back:hover {
+    background-color: #5a6268;
+    color: white;
+  }
+  .blog-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1.5rem;
+  }
+  .author-signature {
+    color: grey;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-style: Poppins;
+    padding-right: -80%;
+  }
+  .content-divider {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 1.5rem 0;
+  }
+  .full-width-divider {
+    border-top: 2px solid #dee2e6;
+    margin: 2rem 0;
+    width: 69vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+
+<div class="blog-container">
+  <div class="blog-header">
+    <!-- Added image above the blog title -->
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT05SSHlDMZph3zEuvajupt2v1EZ0wyJmpXKg&s" alt="Blog header image" class="blog-image">
+    
+    <h1 class="blog-title"><%= blog.btitle %></h1>
+    
+    <!-- Added author signature below the title to the right -->
+    <div class="author-signature">By <%= blog.bname %></div>
+    
+    <div class="blog-meta">
+      <span>Posted by <%= blog.bname %> on <%= new Date(blog.btime).toLocaleDateString('en-GB') %> at <%= new Date(blog.btime).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit', hour12: false}) %></span>
+    </div>
+  </div>
+  <div class="full-width-divider"></div>
+  <!-- Added horizontal line above the blog content -->
+  <hr class="content-divider">
+
+  <div class="blog-content">
+    <%= blog.bblog %>
+  </div>
+
+  <div class="blog-actions">
+    <button class="btn btn-lg px-4 btn-back" onclick="location.href='/ourblog'">Back to Blogs</button>
+  </div>
+</div>
+
+<%- include("./partials/footer.ejs") %>

@@ -1,0 +1,28 @@
+<%- include("./partials/header.ejs") %>
+
+    <img class="profile" src="https://img.freepik.com/premium-photo/studying-cat-with-glasses-is-looking-notebook-ai-generated_173948-9220.jpg" alt=" Hi" height="400">
+    <div class="form">
+       <h1>Create your Blog Post</h1>
+       <form action="/submit" method="POST">
+        <div class="name mb-3">
+          <label>Author</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            value="<%= user.username %>" 
+            readonly
+          >
+        </div>
+        <div class="title">
+          <input type="text" name="title" placeholder="Title" required="">
+        </div>
+
+          <textarea name="blog" placeholder="Blog" rows="6" required=""></textarea>
+
+        <div class="send">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+
+<%- include("./partials/footer.ejs") %>

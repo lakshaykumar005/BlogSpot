@@ -1,0 +1,14 @@
+<%- include("./partials/header.ejs") %>
+
+<img class="profile" src="https://static.vecteezy.com/system/resources/previews/022/714/657/large_2x/ginger-realistic-sad-cat-looks-out-the-window-with-falling-snow-ai-generated-photo.jpg" alt="sad cat">
+
+<div class="form">
+  <h1>You wanna delete your blog, for sure?</h1>
+  <div class="send">
+    <form action="/delete/<%= blogsdata.id %>?_method=DELETE" method="POST">
+      <button type="submit">Delete Blog</button>
+    </form>
+  </div>
+</div>
+
+<%- include("./partials/footer.ejs") %>

@@ -1,0 +1,201 @@
+<%- include("./partials/header.ejs") %>
+
+<style>
+  .blog-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .rounded-image {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    margin-right: 2rem;
+  }
+  .blog-title {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  .full-width-divider {
+    border-top: 2px solid #dee2e6;
+    margin: 2rem 0;
+    width: 99vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .blog-content-container {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  .blog-meta {
+    position: absolute;
+    left: -30%;
+    width: 45%;
+    padding-left: 20px;
+    box-sizing: border-box;
+  }
+  .blog-content-wrapper {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+    justify-content: center;
+    margin-left: 25%; /* Offset by the width of the meta column */
+  }
+  .blog-content {
+    flex: 1;
+    max-width: 800px;
+    min-width: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #333;
+  }
+  .blog-content p {
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    word-break: break-word;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .blog-actions {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-left: 2rem;
+  }
+  .display-5.fw-bold {
+    font-weight: 500 !important;
+  }
+  .meta-info {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+  
+  .blogs-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+  }
+
+  /* New View button styles - added at the bottom without modifying existing styles */
+  .btn-outline-view {
+    color: #6c757d;
+    border-color: #6c757d;
+  }
+  .btn-outline-view:hover {
+    color: white;
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  .centerheadings {
+    text-align: center;
+    font-size: 2rem;
+    margin-left: 2rem;
+    color: #333;
+  }
+  .search-results-info {
+    text-align: center;
+    margin: 20px 0;
+    font-style: italic;
+    color: #6c757d;
+  }
+</style>
+<div class="blogs-container">
+  <div class="blog-header">
+    <img src="https://kawaiiai.com/wp-content/uploads/2022/09/gangaster-cat-7.jpg" class="rounded-image" alt="Blog Image">
+    <div class="blog-title">Your Blogs</div>
+  </div>
+
+  <% if (searchQuery) { %>
+    <div class="search-results-info">
+      Showing results for: "<%= searchQuery %>"
+      <a href="/ourblog" class="btn btn-sm btn-outline-secondary ms-3">Clear search</a>
+    </div>
+  <% } %>
+
+  <% if (blogsdata.length > 0) { %>
+    <% blogsdata.forEach(blog => { %>
+      <div class="full-width-divider"></div>
+      <div class="blog-content-container">
+        <div class="blog-meta">
+          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3"><%= blog.btitle %></h1>
+          <p class="meta-info">Posted on: <%= new Date(blog.btime).toLocaleDateString('en-GB') %> 
+             <%= new Date(blog.btime).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit', hour12: false}) %></p>
+          <p class="meta-info">Author: <%= blog.bname %></p>
+        </div>
+
+        <div class="blog-content-wrapper">
+          <div class="blog-content">
+            <p><%= blog.bblog %></p>
+          </div>
+          <div class="blog-actions">
+            <!-- View button - always visible -->
+            <button class="btn btn-outline-view btn-outline-secondary btn-lg px-4" 
+                    onclick="location.href='/view/<%= blog.id %>'">
+              View
+            </button>
+            
+            <!-- Update/Delete buttons - only show if current user is the author -->
+            <% if (currentUser && currentUser.id === blog.user_id) { %>
+              <button class="btn btn-primary btn-lg px-4" 
+                      onclick="location.href='/edit/<%= blog.id %>'">
+                Update
+              </button>
+              <button class="btn btn-outline-danger btn-lg px-4" 
+                      onclick="location.href='/delete/<%= blog.id %>'">
+                Delete
+              </button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+
+    <!-- Pagination -->
+    <% if (totalPages > 1) { %>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <% if (currentPage > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="<%= paginationUrl(currentPage - 1) %>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+          <% } %>
+          
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+              <a class="page-link" href="<%= paginationUrl(i) %>"><%= i %></a>
+            </li>
+          <% } %>
+          
+          <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+              <a class="page-link" href="<%= paginationUrl(currentPage + 1) %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          <% } %>
+        </ul>
+      </nav>
+    <% } %>
+  <% } else { %>
+    <div class="full-width-divider"></div>
+    <img class="profile" src="https://live.staticflickr.com/4058/4576439746_022810e567_b.jpg" alt="cat profile">
+    <h1 class="centerheadings">No blogs found<% if (searchQuery) { %> matching your search criteria<% } %></h1>
+  <% } %>
+</div>
+
+<%- include("./partials/footer.ejs") %>

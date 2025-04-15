@@ -1,0 +1,22 @@
+<%- include("./partials/header.ejs") %>
+
+<img class="profile" src="https://img.freepik.com/premium-photo/cat-with-sunglasses-laptop-table_207225-103.jpg" alt="Hi" height="400">
+
+<div class="form">
+  <h1>Edit your Blog Post</h1>
+  <form action="/update/<%= blogsdata.id %>?_method=PUT" method="POST">
+    <div class="name">
+      <input type="text" name="name" value="<%= blogsdata.bname %>" placeholder="Name" required>
+    </div>
+    <div class="title">
+      <input type="text" name="title" value="<%= blogsdata.btitle %>" placeholder="Title" required>
+    </div>
+    <textarea name="blog" placeholder="Blog" rows="6" required><%= blogsdata.bblog %></textarea>
+
+    <div class="send">
+      <button type="submit">Update</button>
+    </div>
+  </form>
+</div>
+
+<%- include("./partials/footer.ejs") %>

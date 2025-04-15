@@ -1,0 +1,13 @@
+<%- include("./partials/header.ejs", { showSearch: false, searchQuery: null }) %>
+
+<div class="container mt-5">
+  <div class="alert alert-danger">
+    <h2><%= message %></h2>
+    <% if (error) { %>
+      <pre class="mt-3"><%= error.stack %></pre>
+    <% } %>
+  </div>
+  <a href="/" class="btn btn-primary">Return Home</a>
+</div>
+
+<%- include("./partials/footer.ejs") %>

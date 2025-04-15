@@ -11,18 +11,16 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <title>Blogs Daily</title>
     <style>
-.search-container {
-    width: 100%;
-    display: flex;
+        .search-container {
+            display: flex;
     justify-content: center;
-    margin-top: -50px;
-}
-
-.search-form {
-    width: 60%;
-    display: flex;
-    max-width: 600px;
-}
+    margin: 10px 0 20px 0; /* Reduced top margin */
+    width: 100%;
+        }
+        .search-form {
+            width: 50%;
+            display: flex;
+        }
         .search-input {
             flex-grow: 1;
             padding: 10px 15px;
@@ -92,14 +90,14 @@
               <a href="/signup" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
           <% } %>
       </div>
-      <% if (typeof showSearch === 'undefined' || showSearch !== false) { %>
-        <div class="search-container">
-            <form class="search-form" action="/search" method="GET">
-                <input type="text" name="q" class="search-input" placeholder="Search blogs..." value="<%= searchQuery || '' %>">
-                <button type="submit" class="search-button"><i class="fas fa-search"></i> Search</button>
-            </form>
-        </div>
-        <% } %>
   </nav>
 </header>
+ <% if (typeof showSearch === 'undefined' || showSearch !== false) { %>
+  <div class="search-container">
+      <form class="search-form" action="/search" method="GET">
+          <input type="text" name="q" class="search-input" placeholder="Search blogs..." value="<%= searchQuery || '' %>">
+          <button type="submit" class="search-button"><i class="fas fa-search"></i> Search</button>
+      </form>
+  </div>
+  <% } %>
 <main class="container">

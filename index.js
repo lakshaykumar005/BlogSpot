@@ -81,11 +81,13 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: process.env.NODE_ENV === 'production', // Enable secure cookies in production
     maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
-
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+} 
 // Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
@@ -94,7 +96,9 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/auth/google/callback',
+  callbackURL: process.env.NODE_ENV === 'production'
+    ? 'https://blogspot-ydsn.onrender.com/auth/google/callback'
+    : 'http://localhost:3000/auth/google/callback',
   passReqToCallback: true
 },
 async (req, accessToken, refreshToken, profile, done) => {
